@@ -1,0 +1,7 @@
+{
+    "editor.fontFamily": "'JetBrains Mono', monospace",
+    "editor.mouseWheelZoom": true,
+    "workbench.startupEditor": "none",
+    "editor.fontLigatures": true,
+    "explorer.confirmDragAndDrop": false
+}

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo ""
+echo "Custom Packages:"
+echo ""
+cat "$HOME/system/scripts/pacman/custom_packages"
+echo ""

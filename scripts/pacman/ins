@@ -1,0 +1,45 @@
+#!/bin/bash
+
+packages_file="$HOME/system/scripts/pacman/custom_packages"
+
+# Function to check if a package already exists in the custom_packages file
+package_exists() {
+  local package="$1"
+  grep -q "\"$package\"" "$packages_file"
+}
+
+# Function to append a package to custom_packages
+append_package() {
+  local package="$1"
+  echo "$package" >> "$packages_file"
+}
+
+# Check if custom_packages file exists, create it if not
+if [ ! -f "$packages_file" ]; then
+  echo "[]" > "$packages_file"
+fi
+
+# Use fzf to select packages for installation
+selected_packages=$(pacman -Slq | fzf --multi --preview 'pacman -Si {1}' --print-query)
+
+# Loop through the selected packages
+for package in $selected_packages; do
+  # Check if package is already installed or skipped during installation
+  if package_exists "$package"; then
+    echo "Package $package already exists or was skipped."
+  else
+    # Attempt to install the package
+    if sudo pacman -S --needed "$package"; then
+      # Package installation was successful, append it to custom_packages
+      append_package "$package"
+      echo "Package $package installed and appended to custom_packages."
+    else
+      echo "Package $package installation failed."
+    fi
+  fi
+done
+
+# Sort the custom_packages file alphabetically
+sort -o "$packages_file" "$packages_file"
+
+echo "Installation and appending completed."
