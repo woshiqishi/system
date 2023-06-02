@@ -1,5 +1,11 @@
 #!/bin/bash
 
+dependencies() {
+    if ! command -v curl >/dev/null 2>&1; then
+        sudo apt install curl
+    fi
+}
+
 font_directory="${HOME}/.local/share/fonts/fonts/ttf"
 font_files="${font_directory}/JetBrainsMono*.ttf"
 
@@ -7,6 +13,9 @@ font_files="${font_directory}/JetBrainsMono*.ttf"
 if ls ${font_files} >/dev/null 2>&1; then
     echo "JetBrains Mono font files already exist. Skipping installation."
 else
+    echo "Checking dependencies..."
+    dependencies
+
     echo "Installing JetBrains Mono font files..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
 
