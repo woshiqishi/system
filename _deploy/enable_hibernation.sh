@@ -54,35 +54,24 @@ replace_grub_line() {
   sudo sed -i "s/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=\"resume=UUID=$swap_uuid\"/" "$source_file"
   if [ $? -eq 0 ]; then
     echo "Line replaced successfully in $source_file"
-    echo "Running sudo grub-update"
-    sudo grub-update
-        if [ $? -eq 0 ]; then
-            echo "Grub successfully updated."
-        else
-            echo "Grub update failed."
-        fi
+    echo "Running sudo update-grub"
+    sudo update-grub
+    if [ $? -eq 0 ]; then
+      echo "Grub successfully updated."
+    else
+      echo "Grub update failed."
+    fi
   else
     echo "Line replacement failed."
   fi
 }
 
-# Check if a line starting with 'HibernateMode=' exists in /etc/systemd/sleep.conf
-check_hibernate_mode_line() {
-  local file="/etc/systemd/sleep.conf"
-
-  if grep -q '^HibernateMode=' "$file"; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-# Replace or append the HibernateMode line in /etc/systemd/sleep.conf
+# Modify the HibernateMode line in /etc/systemd/sleep.conf
 modify_hibernate_mode() {
   local file="/etc/systemd/sleep.conf"
   local line="HibernateMode=shutdown"
 
-  if check_hibernate_mode_line; then
+  if grep -q '^HibernateMode=' "$file"; then
     sudo sed -i "s/^HibernateMode=.*/$line/" "$file"
     if [ $? -eq 0 ]; then
       echo "Line replaced successfully in $file"
