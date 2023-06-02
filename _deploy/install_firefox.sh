@@ -15,11 +15,17 @@ cleanup() {
 trap cleanup EXIT ERR
 
 # Download the file using curl
-if curl -L "$url" -o "$output_file"; then
+if curl \
+  --location "$url" \
+  --output "$output_file"; then
   echo "Firefox Developer Edition downloaded successfully."
 
   # Extract the tar file to /opt
-  if sudo tar -xvf "$output_file" -C "$extract_dir"; then
+  if sudo tar \
+    --extract \
+    --verbose \
+    --file "$output_file" \
+    --directory "$extract_dir"; then
     echo "Firefox Developer Edition extracted to $extract_dir"
 
     # Create the shortcut file
