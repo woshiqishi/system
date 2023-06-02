@@ -20,23 +20,42 @@ print_swap_uuid() {
   local swap_uuid=$1
 
   echo "UUID of the swap partition: $swap_uuid"
+  read -p "Is the UUID correct? (y/n): " answer
+
+  if [[ $answer != "y" ]]; then
+    echo "UUID is not confirmed. Exiting..."
+    exit 1
+  fi
 }
 
 # Backup /etc/default/grub
 backup_grub() {
   local source_file="/etc/default/grub"
-  local backup_file="/etc/default/grub.bak"
+  local backup_file="/etc/default/grub.bak2"
 
   if [ ! -f "$source_file" ]; then
     echo "Source file $source_file not found."
     exit 1
   fi
 
-  cp "$source_file" "$backup_file"
+  sudo cp "$source_file" "$backup_file"
   if [ $? -eq 0 ]; then
     echo "Backup created successfully: $backup_file"
   else
     echo "Backup creation failed."
+  fi
+}
+
+# Replace the specified line in /etc/default/grub
+replace_grub_line() {
+  local source_file="/etc/default/grub"
+  local swap_uuid=$1
+
+  sudo sed -i "s/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=\"resume=UUID=$swap_uuid\"/" "$source_file"
+  if [ $? -eq 0 ]; then
+    echo "Line replaced successfully in $source_file"
+  else
+    echo "Line replacement failed."
   fi
 }
 
@@ -46,6 +65,7 @@ main() {
   check_swap_uuid "$swap_uuid"
   print_swap_uuid "$swap_uuid"
   backup_grub
+  replace_grub_line "$swap_uuid"
 }
 
 # Run the script
