@@ -14,6 +14,19 @@ cleanup() {
 # Set up trap to call cleanup function on script exit or error
 trap cleanup EXIT ERR
 
+check_existence() {
+  # Check if Firefox is installed through snap
+  if snap list | grep -q firefox; then
+    snap remove firefox
+  fi
+  # Check if Firefox is installed through apt
+  if dpkg -s firefox &> /dev/null; then
+    sudo apt-get --purge remove firefox
+  fi
+}
+
+check_existence
+
 # Check for and install missing dependencies
 dependencies=("curl" "tar")
 missing_packages=()
