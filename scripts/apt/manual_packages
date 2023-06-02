@@ -1,10 +1,12 @@
+curl
+firefox
 fzf
 git
-vlc
-firefox
+gnupg
 keepassxc
 neovim
-python
-reflector
+python3
 tree
+vlc
+wget
 zsh
