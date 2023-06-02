@@ -1,8 +1,10 @@
 {
-    "editor.fontFamily": "'JetBrains Mono', monospace",
+    "editor.fontFamily": "'JetBrains Mono', 'Ubuntu Mono', 'Liberation Mono', monospace",
     "editor.mouseWheelZoom": true,
     "workbench.startupEditor": "none",
     "editor.fontLigatures": true,
     "explorer.confirmDragAndDrop": false,
-    "git.autofetch": true
+    "git.autofetch": true,
+    "explorer.confirmDelete": false,
+    "workbench.colorTheme": "Community Material Theme Ocean High Contrast"
 }
