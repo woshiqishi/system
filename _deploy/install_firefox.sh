@@ -2,7 +2,7 @@
 
 url="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
 output_file="/tmp/firefox.tar.bz2"
-extract_dir="/opt/firefox"
+extract_dir="/opt"
 shortcut_file="$HOME/.local/share/applications/firefox.desktop"
 
 cleanup() {
@@ -50,8 +50,8 @@ if curl \
     # Create the shortcut file
     echo "[Desktop Entry]
 Name=Firefox Developer Edition
-Exec=$extract_dir/firefox
-Icon=$extract_dir/browser/chrome/icons/default/default128.png
+Exec=$extract_dir/firefox/firefox -P wasp
+Icon=$extract_dir/firefox/browser/chrome/icons/default/default128.png
 Type=Application
 Categories=Network;WebBrowser;
 StartupNotify=true" | sudo tee "$shortcut_file" > /dev/null
@@ -59,17 +59,17 @@ StartupNotify=true" | sudo tee "$shortcut_file" > /dev/null
     echo "Shortcut file created at $shortcut_file"
 
     # Create a new profile named "wasp" without launching Firefox
-    $extract_dir/firefox -CreateProfile "wasp"
+    /opt/firefox/firefox -CreateProfile "wasp"
 
     echo "New profile 'wasp' created."
 
     # Unzip the contents of addons.zip into the new profile directory
-    unzip -q "$HOME/system/dotfiles/firefox/addons.zip" -d "$HOME/.mozilla/firefox/wasp"
+    unzip -q "$HOME/system/dotfiles/firefox/addons.zip" -d "$HOME/.mozilla/firefox"/*".wasp"
 
     echo "Addons unzipped into the profile directory."
 
     # Create a symlink of prefs.js
-    ln -sf "$HOME/system/dotfiles/firefox/prefs.js" "$HOME/.mozilla/firefox/wasp/"
+    ln -sf "$HOME/system/dotfiles/firefox/prefs.js" "$HOME/.mozilla/firefox"/*".wasp/"
 
     echo "Symlink created for prefs.js."
   else
