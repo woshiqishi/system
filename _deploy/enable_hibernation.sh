@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit the script if an error occurs
+trap 'echo "An error occurred. Exiting..."; exit 1' ERR
+
 # Get the UUID of the swap partition
 get_swap_uuid() {
   blkid -o value -s UUID -t TYPE=swap
@@ -60,9 +63,11 @@ replace_grub_line() {
       echo "Grub successfully updated."
     else
       echo "Grub update failed."
+      exit 1
     fi
   else
     echo "Line replacement failed."
+    exit 1
   fi
 }
 
@@ -77,6 +82,7 @@ modify_hibernate_mode() {
       echo "Line replaced successfully in $file"
     else
       echo "Line replacement failed."
+      exit 1
     fi
   else
     echo "$line" | sudo tee -a "$file" >/dev/null
@@ -84,6 +90,7 @@ modify_hibernate_mode() {
       echo "Line appended successfully to $file"
     else
       echo "Line append failed."
+      exit 1
     fi
   fi
 }
