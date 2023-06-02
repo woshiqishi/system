@@ -5,8 +5,6 @@ output_file="/tmp/firefox.tar.bz2"
 extract_dir="/opt/firefox"
 shortcut_file="$HOME/.local/share/applications/firefox.desktop"
 
-required_packages=("curl" "tar")
-
 cleanup() {
   # Clean up the downloaded file
   rm "$output_file"
@@ -17,8 +15,10 @@ cleanup() {
 trap cleanup EXIT ERR
 
 # Check for and install missing dependencies
+dependencies=("curl" "tar")
 missing_packages=()
-for package in "${required_packages[@]}"; do
+
+for package in "${dependencies[@]}"; do
   if ! dpkg -s "$package" > /dev/null 2>&1; then
     missing_packages+=("$package")
   fi
@@ -27,7 +27,10 @@ done
 if [ "${#missing_packages[@]}" -gt 0 ]; then
   echo "Installing missing dependencies: ${missing_packages[*]}"
   sudo apt-get update
-  sudo apt-get install "${missing_packages[@]}"
+  if ! sudo apt-get install -y "${missing_packages[@]}"; then
+    echo "Failed to install missing dependencies. Exiting."
+    exit 1
+  fi
 fi
 
 # Download the file using curl
