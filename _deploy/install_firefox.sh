@@ -57,6 +57,21 @@ Categories=Network;WebBrowser;
 StartupNotify=true" | sudo tee "$shortcut_file" > /dev/null
 
     echo "Shortcut file created at $shortcut_file"
+
+    # Create a new profile named "wasp" without launching Firefox
+    $extract_dir/firefox -CreateProfile "wasp"
+
+    echo "New profile 'wasp' created."
+
+    # Unzip the contents of addons.zip into the new profile directory
+    unzip -q "$HOME/system/dotfiles/firefox/addons.zip" -d "$HOME/.mozilla/firefox/wasp"
+
+    echo "Addons unzipped into the profile directory."
+
+    # Create a symlink of prefs.js
+    ln -sf "$HOME/system/dotfiles/firefox/prefs.js" "$HOME/.mozilla/firefox/wasp/"
+
+    echo "Symlink created for prefs.js."
   else
     echo "Failed to extract Firefox Developer Edition."
     exit 1
