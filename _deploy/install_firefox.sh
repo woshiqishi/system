@@ -19,7 +19,7 @@ trap cleanup EXIT ERR
 
 check_existence() {
   # Check if Firefox is installed through snap or apt
-  if snap list | grep -q firefox || dpkg-query -W firefox; then
+  if snap list firefox &> /dev/null || dpkg -s firefox &> /dev/null; then
     sudo snap remove firefox || sudo apt-get --purge remove firefox
   fi
 }
@@ -28,8 +28,8 @@ install_dependencies() {
   local missing_packages=()
 
   # Check for missing dependencies
-  for package in "curl" "tar"; do
-    if ! dpkg-query -W "$package" > /dev/null 2>&1; then
+  for package in curl tar; do
+    if ! dpkg -s "$package" > /dev/null 2>&1; then
       missing_packages+=("$package")
     fi
   done
@@ -67,15 +67,22 @@ StartupNotify=true" | sudo tee "$shortcut_file" > /dev/null
 
       echo "New profile 'wasp' created."
 
-      # Unzip the contents of addons.zip into the new profile directory
-      unzip -oq "$addons_zip" -d "$profile_dir"/*.wasp
+      # Find the directory ending with .wasp under the profile directory
+      wasp_dir=$(find "$profile_dir" -type d -name "*.wasp" -print -quit)
 
-      echo "Addons unzipped into the profile directory."
+      if [ -n "$wasp_dir" ]; then
+        # Unzip the contents of addons.zip into the found .wasp directory
+        unzip -oq "$addons_zip" -d "$wasp_dir"
 
-      # Create a symlink of prefs.js
-      ln -sf "$prefs_js" "$profile_dir"/*.wasp/
+        echo "Addons unzipped into the profile directory."
 
-      echo "Symlink created for prefs.js."
+        # Create a symlink of prefs.js
+        ln -sf "$prefs_js" "$wasp_dir"
+
+        echo "Symlink created for prefs.js."
+      else
+        echo "No .wasp directory found."
+      fi
     else
       echo "Failed to extract Firefox Developer Edition."
       exit 1

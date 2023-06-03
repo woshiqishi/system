@@ -1,5 +1,8 @@
 [init]
 	defaultBranch = main
 [user]
-	name = Wasp
+	name = wasp
 	email = woshiqishi@proton.me
+	signingkey = E3F8E14212530D9C
+[commit]
+	gpgsign = true

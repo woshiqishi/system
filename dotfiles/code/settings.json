@@ -6,5 +6,6 @@
     "explorer.confirmDragAndDrop": false,
     "git.autofetch": true,
     "explorer.confirmDelete": false,
-    "workbench.colorTheme": "Community Material Theme Ocean High Contrast"
+    "workbench.colorTheme": "Community Material Theme Ocean High Contrast",
+    "git.allowForcePush": true
 }
