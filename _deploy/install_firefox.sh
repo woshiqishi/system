@@ -5,8 +5,8 @@ output_file="/tmp/firefox.tar.bz2"
 extract_dir="/opt"
 shortcut_file="$HOME/.local/share/applications/firefox.desktop"
 addons_zip="$HOME/system/dotfiles/firefox/addons.zip"
-prefs_js="$HOME/system/dotfiles/firefox/prefs.js"
-profile_dir="$HOME/.mozilla/firefox"
+chrome_zip="$HOME/system/dotfiles/firefox/chrome.zip"
+user_js="$HOME/system/dotfiles/firefox/user.js"
 
 cleanup() {
   # Clean up the downloaded file
@@ -68,16 +68,20 @@ StartupNotify=true" | sudo tee "$shortcut_file" > /dev/null
       echo "New profile 'wasp' created."
 
       # Find the directory ending with .wasp under the profile directory
-      wasp_dir=$(find "$profile_dir" -type d -name "*.wasp" -print -quit)
+      wasp_dir=$(find "$HOME/.mozilla/firefox" -type d -name "*.wasp" -print -quit)
 
+      
       if [ -n "$wasp_dir" ]; then
         # Unzip the contents of addons.zip into the found .wasp directory
-        unzip -oq "$addons_zip" -d "$wasp_dir"
+        mkdir "$wasp_dir/extensions" && unzip -oq "$addons_zip" -d "$wasp_dir/extensions"
+
+        # Unzip the contents of chrome.zip into the found .wasp directory
+        unzip -oq "$chrome_zip" -d "$wasp_dir"
 
         echo "Addons unzipped into the profile directory."
 
         # Create a symlink of prefs.js
-        ln -sf "$prefs_js" "$wasp_dir"
+        ln -sf "$user_js" "$wasp_dir"
 
         echo "Symlink created for prefs.js."
       else
