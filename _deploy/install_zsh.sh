@@ -1,6 +1,7 @@
 #!/bin/bash
 
 zshrc="$HOME/.zshrc"
+zsh_dot="$HOME/system/dotfiles/zsh"
 
 die() {
     local message="ERROR: $*"
@@ -8,22 +9,20 @@ die() {
     exit 1
 }
 
-download_antigen() {
-    remote_file="https://git.io/antigen"
-    local_file="$HOME/system/dotfiles/zsh/antigen.zsh"
+download_zplug() {
+    local zplug_repo="https://github.com/zplug/zplug"
 
-    remote_checksum=$(curl -sSL "$remote_file" | md5sum | awk '{print $1}')
-    local_checksum=$(md5sum "$local_file" | awk '{print $1}')
+    export ZPLUG_HOME="$zsh_dot/zplug"
 
-    if [[ "$remote_checksum" != "$local_checksum" ]]; then
-        echo "Content is different. Downloading..."
-        if curl -sSL "$remote_file" -o "$local_file"; then
-            echo "antigen succesfully downloaded."
+    if ! [ -d "$ZPLUG_HOME" ]; then
+        # if the directory doesn't exist, then clone zplug into zplug_home
+        if mkdir "$ZPLUG_HOME" && git clone "$zplug_repo" "$ZPLUG_HOME"; then
+            echo "zplug successfully cloned"
         else
-            die "antigen failed to download."
+            die "zplug cloning went wrong"
         fi
     else
-        echo "antigen is already downloaded and up to date."
+        echo "zplug is already downloaded"
     fi
 }
 
@@ -41,7 +40,7 @@ install_zsh() {
 }
 
 symlink_zshrc() {
-    local zshrc_source="$HOME/system/dotfiles/zsh/.zshrc"
+    local zshrc_source="$zsh_dot/.zshrc"
 
     if [[ -L "$zshrc" && "$(readlink "$zshrc")" == "$zshrc_source" ]]; then
         echo ".zshrc is already linked."
@@ -77,8 +76,8 @@ main() {
     if [[ "$1" == "--test" ]]; then
         set -x
     fi
-
-    download_antigen
+    
+    download_zplug
     install_zsh
     symlink_zshrc
     make_default_shell

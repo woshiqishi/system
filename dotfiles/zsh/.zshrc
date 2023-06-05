@@ -37,17 +37,6 @@
 #zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 #zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-### antigen ###
-
-# source antigen
-source "$HOME/system/dotfiles/zsh/antigen.zsh"
-
-# plugins
-antigen theme spaceship-prompt/spaceship-prompt
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-# apply antigen
-antigen apply
-
-### antigen ###
+for file in "$HOME/system/dotfiles/zsh/sources"/*.zsh; do
+    [[ -r "$file" ]] && source "$file"
+done
