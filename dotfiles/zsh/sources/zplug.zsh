@@ -7,8 +7,8 @@ zplug "sindresorhus/pure", from:github, use:"pure.zsh", as:theme
 zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions", defer:2
-zplug "zsh-users/zsh-history-substring-search", defer:2
-zplug "zsh-users/zsh-completions", defer:2
+#zplug "zsh-users/zsh-history-substring-search", defer:2
+#zplug "zsh-users/zsh-completions", defer:2
 
 # check for new plugins
 if ! zplug check --verbose; then
