@@ -65,6 +65,9 @@ StartupNotify=true" | sudo tee "$shortcut_file" > /dev/null
       # Create a new profile named "wasp" without launching Firefox
       "$extract_dir/firefox/firefox" -CreateProfile "wasp"
 
+      # Set to default profile
+      "$extract_dir/firefox/firefox" -setDefaultProfile "wasp"
+
       echo "New profile 'wasp' created."
 
       # Find the directory ending with .wasp under the profile directory
