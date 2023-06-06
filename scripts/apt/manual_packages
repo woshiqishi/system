@@ -1,11 +1,17 @@
+
 curl
 fzf
 git
+gnome-tweaks
 gnupg
 keepassxc
 neovim
+pyrhon3-pip
 python3
+python3-venv
 tree
 vlc
 wget
+wireshark
+yt-dlp
 zsh

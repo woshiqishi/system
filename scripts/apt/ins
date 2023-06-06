@@ -1,31 +1,32 @@
-packages_file="$HOME/system/scripts/apt/manual_packages"
+#!/bin/bash
 
-# Function to check if a package already exists in the manual_packages file
-package_exists() {
-  local package="$1"
-  grep -q "^$package$" "$packages_file"
-}
+# Set the directory to store the file
+dir="$HOME/system/scripts/apt"
+file="$dir/manual_packages"
 
-# Function to append a package to manual_packages
-append_package() {
-  local package="$1"
-  if ! package_exists "$package"; then
-    echo "$package" >> "$packages_file"
+# Search for packages and select multiple packages using fzf preview mode
+selected=$(apt-cache pkgnames | fzf --multi --preview 'apt-cache show {}')
+
+# Append the selected packages to the file if they are not already listed
+while read -r pkg; do
+  if ! grep -q "^$pkg\$" "$file"; then
+    echo "$pkg" | tee -a "$file"
   fi
-}
+done <<<"$selected"
 
-# Execute the package selection command and append the selected packages to the file
-selected_packages=$(apt-cache pkgnames | fzf --multi --preview 'apt-cache show {1}')
-if [ -n "$selected_packages" ]; then
-  echo "$selected_packages" | xargs -r sudo apt-get install
-  echo "$selected_packages" | while read -r package; do
-    append_package "$package"
-  done
-else
-  echo "No packages selected."
+sort "$file" -o "$file"
+
+if ! sudo apt update -qq; then
+  echo "ERROR: couldn't update!"; exit 1
 fi
 
-# Sort the manual_packages file alphabetically
-sort -o "$packages_file" "$packages_file"
+if ! sudo apt upgrade -qqy; then
+  echo "ERROR: couldn't upgrade!"; exit 1
+fi
 
-echo "Installation and appending completed."
+# Install the selected packages
+if sudo apt install -qqy $selected; then
+  sudo apt autoremove
+else
+  "ERROR: couldn't install"; exit 1
+fi
