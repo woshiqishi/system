@@ -1,0 +1,5 @@
+# prefs.js (I should disable the symlink, but too lazy)
+
+prefs.js
+_test/*
+dotfiles/zsh/zplug/*
