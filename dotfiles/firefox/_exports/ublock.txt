@@ -1,0 +1,48 @@
+{
+  "timeStamp": 1686046270840,
+  "version": "1.49.2",
+  "userSettings": {
+    "advancedUserEnabled": true,
+    "uiAccentCustom": true,
+    "uiAccentCustom0": "#56a22b",
+    "uiTheme": "dark",
+    "importedLists": [],
+    "popupPanelSections": 63,
+    "tooltipsDisabled": true
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-abuse",
+    "ublock-unbreak",
+    "easylist",
+    "easyprivacy",
+    "urlhaus-1",
+    "adguard-annoyance",
+    "adguard-social",
+    "fanboy-cookiemonster",
+    "fanboy-social",
+    "fanboy-annoyance",
+    "fanboy-thirdparty_social",
+    "ublock-annoyances",
+    "plowe-0"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "about-scheme",
+    "chrome-extension-scheme",
+    "chrome-scheme",
+    "edge-scheme",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
+  "userFilters": "! 2023-06-04 https://www.facebook.com\nwww.facebook.com##.x1u8a7rm.xh8yej3.x17qophe.xixxii4.x1ye3gou.x1s14bel.xn6708d.x1xy6bms.x9f619.xayqjjm.x1ey2m1c.x2bj2ny\n"
+}

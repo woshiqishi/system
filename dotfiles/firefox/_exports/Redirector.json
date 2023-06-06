@@ -1,0 +1,57 @@
+{
+    "createdBy": "Redirector v3.5.3",
+    "createdAt": "2023-06-06T10:10:44.239Z",
+    "redirects": [
+        {
+            "description": "StackOverflow",
+            "exampleUrl": "https://stackoverflow.com/questions/40726741/creating-objects-in-java-stackoverflow-error",
+            "exampleResult": "https://code.whatever.social/questions/40726741/creating-objects-in-java-stackoverflow-error",
+            "error": null,
+            "includePattern": "(https:\\/\\/)?(www\\.)?(stackoverflow|superuser)(\\.com)/(.*)",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://code.whatever.social/$5",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "YouTube",
+            "exampleUrl": "https://youtube.com/watch?v=YDqp5mcxQus",
+            "exampleResult": "https://yewtu.be/watch?v=YDqp5mcxQus",
+            "error": null,
+            "includePattern": "(https:\\/\\/)?(www\\.)?(youtube\\.com|youtu\\.be)/(.*)",
+            "excludePattern": "",
+            "patternDesc": "This pattern matches URLs that start with \"https://\", followed by an optional \"www.\", then either \"youtube.com\" or \"youtu.be\", and ending with any characters.",
+            "redirectUrl": "https://yewtu.be/$4",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Reddit",
+            "exampleUrl": "https://reddit.com/r/argentina",
+            "exampleResult": "reddit.baby/r/argentina",
+            "error": null,
+            "includePattern": "(https:\\/\\/)?(www\\.)?reddit\\.com/(.*)",
+            "excludePattern": "",
+            "patternDesc": "This regex pattern matches any URL that starts with \"https://\" or \"http://\", followed by an optional \"www.\", then \"reddit.com/\", and finally any characters after that.",
+            "redirectUrl": "reddit.baby/$3",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        }
+    ]
+}
